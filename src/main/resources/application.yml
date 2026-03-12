@@ -1,0 +1,17 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: "AuthenticationName"
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: "jdbc:postgresql://localhost:5432/auth_service_db"
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    properties:
+      hibernate:
+        show_sql: "true"
+jwt:
+  secret:
+    key: ${JWT_SECRET}
