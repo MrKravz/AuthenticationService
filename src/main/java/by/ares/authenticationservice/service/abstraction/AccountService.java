@@ -9,5 +9,4 @@ public interface AccountService {
     TokenDto register(RegisterRequest request);
     TokenDto authenticate(AuthRequest request);
     TokenDto refreshToken(RefreshTokenRequest request);
-
 }

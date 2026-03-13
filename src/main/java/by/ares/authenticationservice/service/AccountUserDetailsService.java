@@ -14,14 +14,16 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.List;
 
+import static by.ares.authenticationservice.util.AuthServiceConstants.accountNotFoundMessage;
+import static by.ares.authenticationservice.util.AuthServiceConstants.rolePrefix;
+
 @Service
 @RequiredArgsConstructor
 public class AccountUserDetailsService implements UserDetailsService {
 
     private final AccountRepository accountRepository;
 
-    private final String accountNotFoundMessage = "Account not found";
-    private final String rolePrefix = "ROLE_";
+
 
     @Override
     public UserDetails loadUserByUsername(String login) {

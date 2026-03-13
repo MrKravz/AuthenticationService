@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface AccountRepository extends CrudRepository<Account, Long> {
     Optional<Account> findByLogin(String login);
+    boolean existsAccountByLogin(String login);
 }

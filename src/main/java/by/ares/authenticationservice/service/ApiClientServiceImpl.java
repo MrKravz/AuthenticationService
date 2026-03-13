@@ -14,6 +14,9 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.io.InputStream;
 
+import static by.ares.authenticationservice.util.AuthServiceConstants.responseParseMessage;
+import static by.ares.authenticationservice.util.AuthServiceConstants.saveUserUri;
+
 @Service
 @RequiredArgsConstructor
 public class ApiClientServiceImpl implements ApiClientService {
@@ -21,8 +24,6 @@ public class ApiClientServiceImpl implements ApiClientService {
     private final RestClient restClient;
     private final ObjectMapper objectMapper;
 
-    private final String saveUserUri = "";
-    private final String responseParseMessage = "Failed to parse error response";
 
     @Override
     public Long createUser(UserRequest userRequest) {
@@ -39,7 +40,7 @@ public class ApiClientServiceImpl implements ApiClientService {
                     }
                     throw new ExternalApiException(error.getMessage());
                 })
-                .body(Long.class); // TODO refactor
+                .body(Long.class);
     }
 
 }

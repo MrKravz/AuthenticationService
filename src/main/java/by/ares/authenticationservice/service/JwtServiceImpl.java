@@ -15,16 +15,13 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+import static by.ares.authenticationservice.util.AuthServiceConstants.*;
+
 @Service
 public class JwtServiceImpl implements JwtService {
 
     @Value("${jwt.secret.key}")
     private String secret;
-
-    private final long accessExpiration = 0;
-    private final long refreshExpiration = 0;
-    private final String claimNameUserId = "userId";
-    private final String claimNameRole = "role";
 
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));

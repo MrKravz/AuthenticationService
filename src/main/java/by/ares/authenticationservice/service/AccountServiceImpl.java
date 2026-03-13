@@ -20,9 +20,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static by.ares.authenticationservice.util.AuthServiceConstants.*;
+
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
@@ -32,15 +33,13 @@ public class AccountServiceImpl implements AccountService {
     private final SecurityMapper securityMapper;
     private final ApiClientService apiClientService;
 
-    private final String accountNotFoundMessage = "Account not found";
-    private final String loginAlreadyExistsMessage = "This login already exists";
-    private final String invalidRefreshTokenMessage = "Invalid refresh token";
 
     @Override
+    @Transactional
     public TokenDto register(RegisterRequest request) {
-        accountRepository.findByLogin(request.getLogin()).orElseThrow(() -> {
+        if (accountRepository.existsAccountByLogin(request.getLogin())) {
             throw new LoginAlreadyExistsException(loginAlreadyExistsMessage);
-        });
+        }
         Long userId = apiClientService.createUser(request.getUserRequest());
         Account account = securityMapper.toModel(request);
         account.setUserId(userId);
@@ -51,10 +50,10 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public TokenDto authenticate(AuthRequest request) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getLogin(),
-                request.getPassword()));
         Account account = accountRepository.findByLogin(request.getLogin())
                 .orElseThrow(() -> new AccountNotFoundException(accountNotFoundMessage));
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getLogin(),
+                request.getPassword()));
         return jwtService.generateToken(account);
     }
 
