@@ -23,8 +23,6 @@ public class AccountUserDetailsService implements UserDetailsService {
 
     private final AccountRepository accountRepository;
 
-
-
     @Override
     public UserDetails loadUserByUsername(String login) {
         Account account = accountRepository.findByLogin(login)

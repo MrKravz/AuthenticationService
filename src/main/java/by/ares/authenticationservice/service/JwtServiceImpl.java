@@ -5,10 +5,10 @@ import by.ares.authenticationservice.model.Account;
 import by.ares.authenticationservice.model.Role;
 import by.ares.authenticationservice.service.abstraction.JwtService;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
