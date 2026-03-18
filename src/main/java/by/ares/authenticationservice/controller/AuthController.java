@@ -1,6 +1,7 @@
 package by.ares.authenticationservice.controller;
 
 
+import by.ares.authenticationservice.dto.request.AccessTokenRequest;
 import by.ares.authenticationservice.dto.request.AuthRequest;
 import by.ares.authenticationservice.dto.request.RefreshTokenRequest;
 import by.ares.authenticationservice.dto.request.RegisterRequest;
@@ -34,6 +35,11 @@ public class AuthController {
     @PostMapping("/refresh")
     public ResponseEntity<TokenDto> refreshToken(@RequestBody RefreshTokenRequest request) {
         return ResponseEntity.status(HttpStatus.OK).body(accountService.refreshToken(request));
+    }
+
+    @PostMapping("/validate")
+    public ResponseEntity<Boolean> validate(@RequestBody AccessTokenRequest request) {
+        return ResponseEntity.status(HttpStatus.OK).body(accountService.validate(request));
     }
 
 }

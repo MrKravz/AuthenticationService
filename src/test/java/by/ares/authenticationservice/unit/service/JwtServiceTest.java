@@ -39,14 +39,20 @@ class JwtServiceTest {
     }
 
     @Test
-    void shouldValidateCorrectToken() {
-        boolean valid = jwtService.validateToken(tokenDto.getAccessToken());
+    void shouldValidateRefreshToken() {
+        boolean valid = jwtService.validateRefreshToken(tokenDto.getRefreshToken());
+        assertTrue(valid);
+    }
+
+    @Test
+    void shouldValidateAccessToken() {
+        boolean valid = jwtService.validateAccessToken(tokenDto.getAccessToken());
         assertTrue(valid);
     }
 
     @Test
     void shouldReturnFalseForInvalidToken() {
-        boolean valid = jwtService.validateToken(INVALID_REFRESH_TOKEN);
+        boolean valid = jwtService.validateRefreshToken(INVALID_REFRESH_TOKEN);
         assertFalse(valid);
     }
 

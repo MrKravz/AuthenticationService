@@ -24,7 +24,6 @@ public class ApiClientServiceImpl implements ApiClientService {
     private final RestClient restClient;
     private final ObjectMapper objectMapper;
 
-
     @Override
     public Long createUser(UserRequest userRequest) {
         return restClient.post()

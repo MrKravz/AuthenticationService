@@ -1,5 +1,6 @@
 package by.ares.authenticationservice.service;
 
+import by.ares.authenticationservice.dto.request.AccessTokenRequest;
 import by.ares.authenticationservice.dto.request.AuthRequest;
 import by.ares.authenticationservice.dto.request.RefreshTokenRequest;
 import by.ares.authenticationservice.dto.request.RegisterRequest;
@@ -60,13 +61,18 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public TokenDto refreshToken(RefreshTokenRequest request) {
-        if (!jwtService.validateToken(request.getRefreshToken())) {
+        if (!jwtService.validateRefreshToken(request.getRefreshToken())) {
             throw new InvalidRefreshTokenException(invalidRefreshTokenMessage);
         }
         String login = jwtService.extractLogin(request.getRefreshToken());
         Account account = accountRepository.findByLogin(login)
                 .orElseThrow(() -> new AccountNotFoundException(accountNotFoundMessage));
         return jwtService.generateToken(account);
+    }
+
+    @Override
+    public Boolean validate(AccessTokenRequest accessTokenRequest) {
+        return jwtService.validateAccessToken(accessTokenRequest.getAccessToken());
     }
 
 }

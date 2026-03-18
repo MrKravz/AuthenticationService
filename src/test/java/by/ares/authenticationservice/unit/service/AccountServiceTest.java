@@ -108,7 +108,7 @@ class AccountServiceTest {
 
     @Test
     void shouldRefreshTokenSuccessfully() {
-        when(jwtService.validateToken(VALID_REFRESH_TOKEN)).thenReturn(true);
+        when(jwtService.validateRefreshToken(VALID_REFRESH_TOKEN)).thenReturn(true);
         when(jwtService.extractLogin(VALID_REFRESH_TOKEN)).thenReturn(LOGIN);
         when(accountRepository.findByLogin(LOGIN)).thenReturn(Optional.of(accountAfterSave));
         when(jwtService.generateToken(accountAfterSave)).thenReturn(token);
@@ -118,7 +118,7 @@ class AccountServiceTest {
 
     @Test
     void shouldThrowExceptionWhenRefreshTokenInvalid() {
-        when(jwtService.validateToken(INVALID_REFRESH_TOKEN)).thenReturn(false);
+        when(jwtService.validateRefreshToken(INVALID_REFRESH_TOKEN)).thenReturn(false);
         assertThrows(InvalidRefreshTokenException.class,
                 () -> accountService.refreshToken(invalidRefreshTokenRequest));
     }

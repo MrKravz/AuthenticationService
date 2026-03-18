@@ -5,11 +5,11 @@ import by.ares.authenticationservice.model.Account;
 import by.ares.authenticationservice.model.Role;
 
 public interface JwtService {
-
-
     TokenDto generateToken(Account account);
 
-    boolean validateToken(String token);
+    boolean validateRefreshToken(String token);
+
+    boolean validateAccessToken(String token);
 
     String extractLogin(String token);
 
@@ -17,4 +17,5 @@ public interface JwtService {
 
     Role extractRole(String token);
 
+    boolean isTokenExpired(String token);
 }

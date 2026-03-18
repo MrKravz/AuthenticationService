@@ -55,10 +55,22 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public boolean validateToken(String token) {
+    public boolean validateRefreshToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token);
             return true;
+        } catch (JwtException e) {
+            return false;
+        }
+    }
+    @Override
+    public boolean validateAccessToken(String token) {
+        try {
+            Claims claims = extractClaims(token);
+            if (claims.get(claimNameUserId) == null || claims.get(claimNameRole) == null) {
+                return false;
+            }
+            return !isTokenExpired(token);
         } catch (JwtException e) {
             return false;
         }
@@ -85,6 +97,10 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public Role extractRole(String token) {
         return Role.valueOf(extractClaims(token).get(claimNameRole, String.class));
+    }
+    @Override
+    public boolean isTokenExpired(String token) {
+        return extractClaims(token).get(claimNameExpirationDate, Date.class).before(new Date());
     }
 
 }
