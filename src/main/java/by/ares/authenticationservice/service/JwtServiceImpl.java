@@ -37,10 +37,10 @@ public class JwtServiceImpl implements JwtService {
     private String generateAccessToken(Account account) {
         return Jwts.builder()
                 .setSubject(account.getLogin())
-                .claim(claimNameUserId, account.getUserId())
-                .claim(claimNameRole, account.getRole().name())
+                .claim(CLAIM_NAME_USER_ID, account.getUserId())
+                .claim(CLAIM_NAME_ROLE, account.getRole().name())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + accessExpiration))
+                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_EXPIRATION))
                 .signWith(getSigningKey())
                 .compact();
     }
@@ -49,7 +49,7 @@ public class JwtServiceImpl implements JwtService {
         return Jwts.builder()
                 .setSubject(account.getLogin())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + refreshExpiration))
+                .setExpiration(new Date(System.currentTimeMillis() + REFRESH_EXPIRATION))
                 .signWith(getSigningKey())
                 .compact();
     }
@@ -67,7 +67,7 @@ public class JwtServiceImpl implements JwtService {
     public boolean validateAccessToken(String token) {
         try {
             Claims claims = extractClaims(token);
-            if (claims.get(claimNameUserId) == null || claims.get(claimNameRole) == null) {
+            if (claims.get(CLAIM_NAME_USER_ID) == null || claims.get(CLAIM_NAME_ROLE) == null) {
                 return false;
             }
             return !isTokenExpired(token);
@@ -91,16 +91,16 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public Long extractUserId(String token) {
-        return extractClaims(token).get(claimNameUserId, Long.class);
+        return extractClaims(token).get(CLAIM_NAME_USER_ID, Long.class);
     }
 
     @Override
     public Role extractRole(String token) {
-        return Role.valueOf(extractClaims(token).get(claimNameRole, String.class));
+        return Role.valueOf(extractClaims(token).get(CLAIM_NAME_ROLE, String.class));
     }
     @Override
     public boolean isTokenExpired(String token) {
-        return extractClaims(token).get(claimNameExpirationDate, Date.class).before(new Date());
+        return extractClaims(token).get(CLAIM_NAME_EXPIRATION_DATE, Date.class).before(new Date());
     }
 
 }

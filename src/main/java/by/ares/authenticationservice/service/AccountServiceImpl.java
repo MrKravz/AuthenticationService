@@ -39,7 +39,7 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     public TokenDto register(RegisterRequest request) {
         if (accountRepository.existsAccountByLogin(request.getLogin())) {
-            throw new LoginAlreadyExistsException(loginAlreadyExistsMessage);
+            throw new LoginAlreadyExistsException(LOGIN_ALREADY_EXISTS_MESSAGE);
         }
         Long userId = apiClientService.createUser(request.getUserRequest());
         Account account = new Account()
@@ -53,7 +53,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public TokenDto authenticate(AuthRequest request) {
         Account account = accountRepository.findByLogin(request.getLogin())
-                .orElseThrow(() -> new AccountNotFoundException(accountNotFoundMessage));
+                .orElseThrow(() -> new AccountNotFoundException(ACCOUNT_NOT_FOUND_MESSAGE));
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getLogin(),
                 request.getPassword()));
         return jwtService.generateToken(account);
@@ -62,11 +62,11 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public TokenDto refreshToken(RefreshTokenRequest request) {
         if (!jwtService.validateRefreshToken(request.getRefreshToken())) {
-            throw new InvalidRefreshTokenException(invalidRefreshTokenMessage);
+            throw new InvalidRefreshTokenException(INVALID_REFRESH_TOKEN_MESSAGE);
         }
         String login = jwtService.extractLogin(request.getRefreshToken());
         Account account = accountRepository.findByLogin(login)
-                .orElseThrow(() -> new AccountNotFoundException(accountNotFoundMessage));
+                .orElseThrow(() -> new AccountNotFoundException(ACCOUNT_NOT_FOUND_MESSAGE));
         return jwtService.generateToken(account);
     }
 

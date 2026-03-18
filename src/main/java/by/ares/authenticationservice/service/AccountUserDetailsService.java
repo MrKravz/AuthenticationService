@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collection;
 import java.util.List;
 
-import static by.ares.authenticationservice.util.AuthServiceConstants.accountNotFoundMessage;
-import static by.ares.authenticationservice.util.AuthServiceConstants.rolePrefix;
+import static by.ares.authenticationservice.util.AuthServiceConstants.ACCOUNT_NOT_FOUND_MESSAGE;
+import static by.ares.authenticationservice.util.AuthServiceConstants.ROLE_PREFIX;
 
 @Service
 @RequiredArgsConstructor
@@ -28,11 +28,11 @@ public class AccountUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String login) {
         Account account = accountRepository.findByLogin(login)
-                .orElseThrow(() -> new UsernameNotFoundException(accountNotFoundMessage));
+                .orElseThrow(() -> new UsernameNotFoundException(ACCOUNT_NOT_FOUND_MESSAGE));
         return new UserDetails() {
             @Override
             public Collection<? extends GrantedAuthority> getAuthorities() {
-                return List.of(new SimpleGrantedAuthority(rolePrefix + account.getRole().name()));
+                return List.of(new SimpleGrantedAuthority(ROLE_PREFIX + account.getRole().name()));
             }
 
             @Override

@@ -14,8 +14,8 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.io.InputStream;
 
-import static by.ares.authenticationservice.util.AuthServiceConstants.responseParseMessage;
-import static by.ares.authenticationservice.util.AuthServiceConstants.saveUserUri;
+import static by.ares.authenticationservice.util.AuthServiceConstants.RESPONSE_PARSE_MESSAGE;
+import static by.ares.authenticationservice.util.AuthServiceConstants.SAVE_USER_URI;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +27,7 @@ public class ApiClientServiceImpl implements ApiClientService {
     @Override
     public Long createUser(UserRequest userRequest) {
         return restClient.post()
-                .uri(saveUserUri)
+                .uri(SAVE_USER_URI)
                 .body(userRequest)
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, (req, res) -> {
@@ -35,7 +35,7 @@ public class ApiClientServiceImpl implements ApiClientService {
                     try (InputStream is = res.getBody()) {
                         error = objectMapper.readValue(is, ExceptionResponse.class);
                     } catch (IOException e) {
-                        throw new ResponseParseException(responseParseMessage);
+                        throw new ResponseParseException(RESPONSE_PARSE_MESSAGE);
                     }
                     throw new ExternalApiException(error.getMessage());
                 })
