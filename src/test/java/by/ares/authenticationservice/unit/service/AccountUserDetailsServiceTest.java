@@ -2,7 +2,7 @@ package by.ares.authenticationservice.unit.service;
 
 import by.ares.authenticationservice.model.Account;
 import by.ares.authenticationservice.repository.AccountRepository;
-import by.ares.authenticationservice.service.AccountUserDetailsService;
+import by.ares.authenticationservice.service.impl.AccountUserDetailsService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

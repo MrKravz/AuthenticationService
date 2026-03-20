@@ -1,4 +1,4 @@
-package by.ares.authenticationservice.service;
+package by.ares.authenticationservice.service.impl;
 
 import by.ares.authenticationservice.model.Account;
 import by.ares.authenticationservice.repository.AccountRepository;

@@ -1,5 +1,10 @@
+FROM maven:3.9.9-eclipse-temurin-21 AS builder
+WORKDIR /build
+COPY pom.xml .
+RUN mvn -B -q -e -DskipTests dependency:go-offline
+COPY src ./src
+RUN mvn -B package -DskipTests
 FROM eclipse-temurin:21-jre-alpine
-RUN mkdir /auth_service
-WORKDIR /auth_service
-COPY target/AuthenticationService-0.0.1-SNAPSHOT.jar /auth_service
-ENTRYPOINT java -jar /auth_service/AuthenticationService-0.0.1-SNAPSHOT.jar
+WORKDIR /java_course
+COPY --from=builder /build/target/*.jar auth_service.jar
+ENTRYPOINT ["java", "-jar", "/java_course/auth_service.jar"]

@@ -1,9 +1,9 @@
-package by.ares.authenticationservice.service;
+package by.ares.authenticationservice.service.impl;
 
 import by.ares.authenticationservice.dto.response.TokenDto;
 import by.ares.authenticationservice.model.Account;
 import by.ares.authenticationservice.model.Role;
-import by.ares.authenticationservice.service.abstraction.JwtService;
+import by.ares.authenticationservice.service.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

@@ -1,7 +1,7 @@
 package by.ares.authenticationservice.config;
 
 import by.ares.authenticationservice.model.Role;
-import by.ares.authenticationservice.service.AccountUserDetailsService;
+import by.ares.authenticationservice.service.impl.AccountUserDetailsService;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,18 +37,24 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) {
-        http
+        return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/users/**", "/payment_cards/**",
                                 "/orders/**", "/payments/**").hasRole(Role.ADMIN.toString())
-                        .requestMatchers( "/users/change_status/**", "/payment_cards/change_status/**").hasRole(Role.ADMIN.toString())
+                        .requestMatchers( HttpMethod.PATCH,"/users/**", "/payment_cards/**, /items/**")
+                        .hasRole(Role.ADMIN.toString())
+                        .requestMatchers(HttpMethod.POST, "/items/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .csrf(AbstractHttpConfigurer::disable);
-        return http.build();
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
+                )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .csrf(AbstractHttpConfigurer::disable)
+                .build();
     }
 
     @Bean

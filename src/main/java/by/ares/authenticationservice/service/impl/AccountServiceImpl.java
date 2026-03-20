@@ -1,4 +1,4 @@
-package by.ares.authenticationservice.service;
+package by.ares.authenticationservice.service.impl;
 
 import by.ares.authenticationservice.dto.request.AccessTokenRequest;
 import by.ares.authenticationservice.dto.request.AuthRequest;
@@ -10,9 +10,9 @@ import by.ares.authenticationservice.exception.InvalidRefreshTokenException;
 import by.ares.authenticationservice.exception.LoginAlreadyExistsException;
 import by.ares.authenticationservice.model.Account;
 import by.ares.authenticationservice.repository.AccountRepository;
-import by.ares.authenticationservice.service.abstraction.AccountService;
-import by.ares.authenticationservice.service.abstraction.ApiClientService;
-import by.ares.authenticationservice.service.abstraction.JwtService;
+import by.ares.authenticationservice.service.AccountService;
+import by.ares.authenticationservice.service.ApiClientService;
+import by.ares.authenticationservice.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

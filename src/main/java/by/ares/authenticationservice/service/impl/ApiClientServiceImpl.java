@@ -1,10 +1,10 @@
-package by.ares.authenticationservice.service;
+package by.ares.authenticationservice.service.impl;
 
 import by.ares.authenticationservice.dto.request.UserRequest;
 import by.ares.authenticationservice.exception.ExceptionResponse;
 import by.ares.authenticationservice.exception.ExternalApiException;
 import by.ares.authenticationservice.exception.ResponseParseException;
-import by.ares.authenticationservice.service.abstraction.ApiClientService;
+import by.ares.authenticationservice.service.ApiClientService;
 import io.jsonwebtoken.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
