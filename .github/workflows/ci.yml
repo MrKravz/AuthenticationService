@@ -34,8 +34,8 @@ jobs:
             -Dsonar.organization=mrkravz \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
-            -Dsonar.coverage.exclusions=**/config/**,**/dto/**,**/model/**,**/exception/**,**/repository/**, \
-          **/util/**, **/controller/advice/**, **/*Application.java
+            -Dsonar.coverage.exclusions=**/config/**,**/dto/**,**/model/**,**/exception/**,**/repository/**,\
+          **/util/**,**/controller/advice/**,**/*Application.java
 
 
   docker:
