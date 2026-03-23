@@ -1,7 +1,7 @@
 package by.ares.authenticationservice.unit.service;
 
 import by.ares.authenticationservice.dto.request.UserRequest;
-import by.ares.authenticationservice.service.ApiClientServiceImpl;
+import by.ares.authenticationservice.service.impl.ApiClientServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

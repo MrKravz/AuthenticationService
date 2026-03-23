@@ -6,7 +6,7 @@ import by.ares.authenticationservice.dto.request.AuthRequest;
 import by.ares.authenticationservice.dto.request.RefreshTokenRequest;
 import by.ares.authenticationservice.dto.request.RegisterRequest;
 import by.ares.authenticationservice.dto.response.TokenDto;
-import by.ares.authenticationservice.service.abstraction.AccountService;
+import by.ares.authenticationservice.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

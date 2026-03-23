@@ -15,15 +15,15 @@ public class AuthControllerAdvice {
 
     @ExceptionHandler(value = AccountNotFoundException.class)
     public ResponseEntity<ExceptionResponse> handleAccountNotFoundException(AccountNotFoundException ex) {
-        log.error(ex.getMessage(), System.currentTimeMillis());
+        log.error(ex.getMessage(), ex);
         return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
+                .status(HttpStatus.NOT_FOUND)
                 .body(new ExceptionResponse(ex.getMessage(), System.currentTimeMillis()));
     }
 
     @ExceptionHandler(value = ExternalApiException.class)
     public ResponseEntity<ExceptionResponse> handleExternalApiException(ExternalApiException ex) {
-        log.error(ex.getMessage(), System.currentTimeMillis());
+        log.error(ex.getMessage(), ex);
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ExceptionResponse(ex.getMessage(), System.currentTimeMillis()));
@@ -31,7 +31,7 @@ public class AuthControllerAdvice {
 
     @ExceptionHandler(value = InvalidRefreshTokenException.class)
     public ResponseEntity<ExceptionResponse> handleInvalidRefreshTokenException(InvalidRefreshTokenException ex) {
-        log.error(ex.getMessage(), System.currentTimeMillis());
+        log.error(ex.getMessage(), ex);
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ExceptionResponse(ex.getMessage(), System.currentTimeMillis()));
@@ -39,7 +39,7 @@ public class AuthControllerAdvice {
 
     @ExceptionHandler(value = LoginAlreadyExistsException.class)
     public ResponseEntity<ExceptionResponse> handleLoginAlreadyExistsException(LoginAlreadyExistsException ex) {
-        log.error(ex.getMessage(), System.currentTimeMillis());
+        log.error(ex.getMessage(), ex);
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ExceptionResponse(ex.getMessage(), System.currentTimeMillis()));
@@ -47,7 +47,7 @@ public class AuthControllerAdvice {
 
     @ExceptionHandler(value = ResponseParseException.class)
     public ResponseEntity<ExceptionResponse> handleResponseParseException(ResponseParseException ex) {
-        log.error(ex.getMessage(), System.currentTimeMillis());
+        log.error(ex.getMessage(), ex);
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ExceptionResponse(ex.getMessage(), System.currentTimeMillis()));
@@ -55,15 +55,15 @@ public class AuthControllerAdvice {
 
     @ExceptionHandler(value = UsernameNotFoundException.class)
     public ResponseEntity<ExceptionResponse> handleUsernameNotFoundException(UsernameNotFoundException ex) {
-        log.error(ex.getMessage(), System.currentTimeMillis());
+        log.error(ex.getMessage(), ex);
         return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
+                .status(HttpStatus.NOT_FOUND)
                 .body(new ExceptionResponse(ex.getMessage(), System.currentTimeMillis()));
     }
 
     @ExceptionHandler(value = JwtException.class)
     public ResponseEntity<ExceptionResponse> handleJwtException(JwtException ex) {
-        log.error(ex.getMessage(), System.currentTimeMillis());
+        log.error(ex.getMessage(), ex);
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ExceptionResponse(ex.getMessage(), System.currentTimeMillis()));

@@ -1,4 +1,4 @@
-package by.ares.authenticationservice.service.abstraction;
+package by.ares.authenticationservice.service;
 
 import by.ares.authenticationservice.dto.request.UserRequest;
 

@@ -1,4 +1,4 @@
-package by.ares.authenticationservice.service;
+package by.ares.authenticationservice.service.impl;
 
 import by.ares.authenticationservice.dto.request.AccessTokenRequest;
 import by.ares.authenticationservice.dto.request.AuthRequest;
@@ -10,9 +10,9 @@ import by.ares.authenticationservice.exception.InvalidRefreshTokenException;
 import by.ares.authenticationservice.exception.LoginAlreadyExistsException;
 import by.ares.authenticationservice.model.Account;
 import by.ares.authenticationservice.repository.AccountRepository;
-import by.ares.authenticationservice.service.abstraction.AccountService;
-import by.ares.authenticationservice.service.abstraction.ApiClientService;
-import by.ares.authenticationservice.service.abstraction.JwtService;
+import by.ares.authenticationservice.service.AccountService;
+import by.ares.authenticationservice.service.ApiClientService;
+import by.ares.authenticationservice.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,7 +39,7 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     public TokenDto register(RegisterRequest request) {
         if (accountRepository.existsAccountByLogin(request.getLogin())) {
-            throw new LoginAlreadyExistsException(loginAlreadyExistsMessage);
+            throw new LoginAlreadyExistsException(LOGIN_ALREADY_EXISTS_MESSAGE);
         }
         Long userId = apiClientService.createUser(request.getUserRequest());
         Account account = new Account()
@@ -53,7 +53,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public TokenDto authenticate(AuthRequest request) {
         Account account = accountRepository.findByLogin(request.getLogin())
-                .orElseThrow(() -> new AccountNotFoundException(accountNotFoundMessage));
+                .orElseThrow(() -> new AccountNotFoundException(ACCOUNT_NOT_FOUND_MESSAGE));
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getLogin(),
                 request.getPassword()));
         return jwtService.generateToken(account);
@@ -62,11 +62,11 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public TokenDto refreshToken(RefreshTokenRequest request) {
         if (!jwtService.validateRefreshToken(request.getRefreshToken())) {
-            throw new InvalidRefreshTokenException(invalidRefreshTokenMessage);
+            throw new InvalidRefreshTokenException(INVALID_REFRESH_TOKEN_MESSAGE);
         }
         String login = jwtService.extractLogin(request.getRefreshToken());
         Account account = accountRepository.findByLogin(login)
-                .orElseThrow(() -> new AccountNotFoundException(accountNotFoundMessage));
+                .orElseThrow(() -> new AccountNotFoundException(ACCOUNT_NOT_FOUND_MESSAGE));
         return jwtService.generateToken(account);
     }
 

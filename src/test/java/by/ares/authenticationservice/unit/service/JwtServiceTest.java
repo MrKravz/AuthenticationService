@@ -3,7 +3,7 @@ package by.ares.authenticationservice.unit.service;
 import by.ares.authenticationservice.dto.response.TokenDto;
 import by.ares.authenticationservice.model.Account;
 import by.ares.authenticationservice.model.Role;
-import by.ares.authenticationservice.service.JwtServiceImpl;
+import by.ares.authenticationservice.service.impl.JwtServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

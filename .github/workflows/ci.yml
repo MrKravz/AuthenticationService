@@ -10,6 +10,7 @@ jobs:
   build-test-analyze:
     name: Build, Test & Analyze
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -23,29 +24,26 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Build with Maven
-        run: mvn clean compile
-
-      - name: Run tests
-        run: mvn test
-
-
-
-      - name: SonarQube Analysis
+      - name: Build, Test & Sonar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          mvn -X org.sonarsource.scanner.maven:sonar-maven-plugin:4.0.0.4121:sonar \
+          mvn clean verify sonar:sonar \
             -Dsonar.projectKey=MrKravz_AuthenticationService \
             -Dsonar.organization=mrkravz \
-            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
+            -Dsonar.coverage.exclusions=**/config/**,**/dto/**,**/model/**,**/exception/**,**/repository/**,\
+          **/util/**,**/controller/advice/**,**/*Application.java
+
 
   docker:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
     needs: build-test-analyze
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main'
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
