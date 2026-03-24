@@ -8,13 +8,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestClient;
 
+import static by.ares.authenticationservice.util.TestConstants.URI;
 import static by.ares.authenticationservice.util.TestConstants.USER_ID;
 import static by.ares.authenticationservice.util.TestModelBuilder.buildUserRequest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.anyString;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,6 +40,7 @@ class ApiClientServiceTest {
     @BeforeEach
     void init() {
         userRequest = buildUserRequest();
+        ReflectionTestUtils.setField(apiClientService, "uri", URI);
     }
 
 

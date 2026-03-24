@@ -10,7 +10,6 @@ public class AuthServiceConstants {
     public static final String ROLE_PREFIX = "ROLE_";
     public static final String LOGIN_ALREADY_EXISTS_MESSAGE = "This login already exists";
     public static final String INVALID_REFRESH_TOKEN_MESSAGE = "Invalid refresh token";
-    public static final String SAVE_USER_URI = "http://localhost:8080/users";
     public static final String RESPONSE_PARSE_MESSAGE = "Failed to parse error response";
 
     private AuthServiceConstants() {

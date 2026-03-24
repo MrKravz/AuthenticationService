@@ -22,5 +22,6 @@ public class TestConstants {
     public static final String SURNAME = "Fury";
     public static final String EMAIL = "email@gmail.com";
     public static final LocalDate BIRTH_DATE = LocalDate.of(2000,1,1);
+    public static final String URI = "test_uri";
 
 }

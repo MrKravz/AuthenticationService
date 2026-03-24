@@ -29,7 +29,7 @@ public class Account {
     @Column(name = "password_hash")
     private String password;
 
-    @Column(name = "userId")
+    @Column(name = "user_id")
     private Long userId;
 
     @Column(name = "active")
@@ -38,7 +38,7 @@ public class Account {
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
-    private Role role = Role.USER;
+    private Role role;
 
     @CreatedDate
     @Column(name = "created_at")
