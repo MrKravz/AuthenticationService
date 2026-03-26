@@ -15,6 +15,7 @@ import static by.ares.authenticationservice.util.TestConstants.URI;
 import static by.ares.authenticationservice.util.TestConstants.USER_ID;
 import static by.ares.authenticationservice.util.TestModelBuilder.buildUserRequest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -43,6 +44,13 @@ class ApiClientServiceTest {
         ReflectionTestUtils.setField(apiClientService, "uri", URI);
     }
 
+    @Test
+    void shouldThrowExceptionWhenUriIsNotSet() {
+        ReflectionTestUtils.setField(apiClientService, "uri", "");
+        IllegalStateException exception = assertThrows(IllegalStateException.class,
+                () -> apiClientService.validateUri());
+        assertEquals("USER_URI environment variable is not set or empty", exception.getMessage());
+    }
 
     @Test
     void shouldCreateUserSuccessfully() {

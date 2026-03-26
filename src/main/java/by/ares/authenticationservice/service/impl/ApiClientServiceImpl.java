@@ -5,6 +5,7 @@ import by.ares.authenticationservice.exception.ExceptionResponse;
 import by.ares.authenticationservice.exception.ExternalApiException;
 import by.ares.authenticationservice.exception.ResponseParseException;
 import by.ares.authenticationservice.service.ApiClientService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
@@ -24,11 +25,19 @@ public class ApiClientServiceImpl implements ApiClientService {
     private final RestClient restClient;
     private final ObjectMapper objectMapper;
 
-    @Value("${service.user.uri}")
+    @Value("${USER_URI:}")
     private String uri;
+
+    @PostConstruct
+    public void validateUri() {
+        if (uri == null || uri.isBlank()) {
+            throw new IllegalStateException("USER_URI environment variable is not set or empty");
+        }
+    }
 
     @Override
     public Long createUser(UserRequest userRequest) {
+
         return restClient.post()
                 .uri(uri)
                 .body(userRequest)

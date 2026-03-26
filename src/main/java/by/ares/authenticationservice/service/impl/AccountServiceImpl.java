@@ -45,8 +45,7 @@ public class AccountServiceImpl implements AccountService {
         Account account = new Account()
                 .setLogin(request.getLogin())
                 .setUserId(userId)
-                .setPassword(passwordEncoder.encode(request.getPassword()))
-                .setRole(request.getRole());
+                .setPassword(passwordEncoder.encode(request.getPassword()));
         accountRepository.save(account);
         return jwtService.generateToken(account);
     }

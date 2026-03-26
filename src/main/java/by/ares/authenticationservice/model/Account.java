@@ -38,7 +38,7 @@ public class Account {
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role role = Role.USER;
 
     @CreatedDate
     @Column(name = "created_at")
