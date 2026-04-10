@@ -25,7 +25,7 @@ public class ApiClientServiceImpl implements ApiClientService {
     private final RestClient restClient;
     private final ObjectMapper objectMapper;
 
-    @Value("${USER_URI:}")
+    @Value("${USER_SERVICE_URL:}")
     private String uri;
 
     @PostConstruct

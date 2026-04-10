@@ -4,6 +4,7 @@ import by.ares.authenticationservice.model.Role;
 import by.ares.authenticationservice.service.impl.AccountUserDetailsService;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +30,7 @@ import java.nio.charset.StandardCharsets;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@Slf4j
 public class SecurityConfig {
 
     @Value("${jwt.secret.key}")
@@ -41,11 +43,6 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/users/**", "/payment_cards/**",
-                                "/orders/**", "/payments/**").hasRole(Role.ADMIN.toString())
-                        .requestMatchers( HttpMethod.PATCH,"/users/**", "/payment_cards/**, /items/**")
-                        .hasRole(Role.ADMIN.toString())
-                        .requestMatchers(HttpMethod.POST, "/items/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
