@@ -25,6 +25,8 @@ public class ApiClientServiceImpl implements ApiClientService {
     private final RestClient restClient;
     private final ObjectMapper objectMapper;
 
+    @Value("${INTERNAL_SERVICE_KEY:}")
+    private String internalServiceKey;
     @Value("${USER_SERVICE_URL:}")
     private String uri;
 
@@ -40,6 +42,7 @@ public class ApiClientServiceImpl implements ApiClientService {
 
         return restClient.post()
                 .uri(uri)
+                .header("X-User-Role", internalServiceKey)
                 .body(userRequest)
                 .retrieve()
                 .onStatus(HttpStatusCode::isError, (req, res) -> {
