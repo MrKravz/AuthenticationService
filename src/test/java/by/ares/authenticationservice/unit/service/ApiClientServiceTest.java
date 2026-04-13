@@ -28,6 +28,8 @@ class ApiClientServiceTest {
     @Mock
     private RestClient.RequestBodyUriSpec requestBodyUriSpec;
     @Mock
+    private RestClient.RequestHeadersSpec requestHeadersSpec;
+    @Mock
     private RestClient.RequestBodySpec requestBodySpec;
     @Mock
     private RestClient.ResponseSpec responseSpec;
@@ -56,6 +58,7 @@ class ApiClientServiceTest {
     void shouldCreateUserSuccessfully() {
         when(restClient.post()).thenReturn(requestBodyUriSpec);
         when(requestBodyUriSpec.uri(anyString())).thenReturn(requestBodySpec);
+        when(requestBodySpec.header(anyString(), any(String[].class))).thenReturn(requestBodySpec);
         when(requestBodySpec.body(any(UserRequest.class))).thenReturn(requestBodySpec);
         when(requestBodySpec.retrieve()).thenReturn(responseSpec);
         when(responseSpec.onStatus(any(), any())).thenReturn(responseSpec);

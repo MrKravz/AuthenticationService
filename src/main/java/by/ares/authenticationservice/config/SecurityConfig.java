@@ -1,13 +1,11 @@
 package by.ares.authenticationservice.config;
 
-import by.ares.authenticationservice.model.Role;
 import by.ares.authenticationservice.service.impl.AccountUserDetailsService;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -41,11 +39,6 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/users/**", "/payment_cards/**",
-                                "/orders/**", "/payments/**").hasRole(Role.ADMIN.toString())
-                        .requestMatchers( HttpMethod.PATCH,"/users/**", "/payment_cards/**, /items/**")
-                        .hasRole(Role.ADMIN.toString())
-                        .requestMatchers(HttpMethod.POST, "/items/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
