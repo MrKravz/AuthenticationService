@@ -1,9 +1,6 @@
 package by.ares.authenticationservice.util;
 
-import by.ares.authenticationservice.dto.request.AuthRequest;
-import by.ares.authenticationservice.dto.request.RefreshTokenRequest;
-import by.ares.authenticationservice.dto.request.RegisterRequest;
-import by.ares.authenticationservice.dto.request.UserRequest;
+import by.ares.authenticationservice.dto.request.*;
 import by.ares.authenticationservice.dto.response.TokenDto;
 import by.ares.authenticationservice.model.Account;
 
@@ -63,6 +60,13 @@ public class TestModelBuilder {
 
     public static TokenDto buildTokenDto() {
         return new TokenDto(ACCESS_TOKEN, VALID_REFRESH_TOKEN);
+    }
+
+    public static AccessTokenRequest buildAccessTokenRequest() {
+        return AccessTokenRequest
+                .builder()
+                .accessToken(VALID_ACCESS_TOKEN)
+                .build();
     }
 
 }

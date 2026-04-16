@@ -5,7 +5,6 @@ import by.ares.authenticationservice.exception.ExceptionResponse;
 import by.ares.authenticationservice.exception.ExternalApiException;
 import by.ares.authenticationservice.exception.ResponseParseException;
 import by.ares.authenticationservice.service.ApiClientService;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import tools.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import static by.ares.authenticationservice.util.AuthServiceConstants.RESPONSE_PARSE_MESSAGE;
@@ -30,16 +28,8 @@ public class ApiClientServiceImpl implements ApiClientService {
     @Value("${USER_SERVICE_URL:}")
     private String uri;
 
-    @PostConstruct
-    public void validateUri() {
-        if (uri == null || uri.isBlank()) {
-            throw new IllegalStateException("USER_URI environment variable is not set or empty");
-        }
-    }
-
     @Override
     public Long createUser(UserRequest userRequest) {
-
         return restClient.post()
                 .uri(uri)
                 .header("X-User-Role", internalServiceKey)
@@ -49,12 +39,30 @@ public class ApiClientServiceImpl implements ApiClientService {
                     ExceptionResponse error;
                     try (InputStream is = res.getBody()) {
                         error = objectMapper.readValue(is, ExceptionResponse.class);
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         throw new ResponseParseException(RESPONSE_PARSE_MESSAGE);
                     }
                     throw new ExternalApiException(error.getMessage());
                 })
                 .body(Long.class);
+    }
+
+    @Override
+    public void deleteUser(Long id) {
+        restClient.delete()
+                .uri(uri + "/" + id)
+                .header("X-User-Role", internalServiceKey)
+                .retrieve()
+                .onStatus(HttpStatusCode::isError, (req, res) -> {
+                    ExceptionResponse error;
+                    try (InputStream is = res.getBody()) {
+                        error = objectMapper.readValue(is, ExceptionResponse.class);
+                    } catch (Exception e) {
+                        throw new ResponseParseException(RESPONSE_PARSE_MESSAGE);
+                    }
+                    throw new ExternalApiException(error.getMessage());
+                })
+                .toBodilessEntity();
     }
 
 }

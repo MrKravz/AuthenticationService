@@ -18,10 +18,11 @@ public class TestConstants {
     public static final String ACCESS_TOKEN = "access";
     public static final String INVALID_REFRESH_TOKEN = "invalidToken";
     public static final String VALID_REFRESH_TOKEN = "validToken";
+    public static final String VALID_ACCESS_TOKEN = "validAccessToken";
+    public static final String INVALID_ACCESS_TOKEN = "invalidAccessToken";
     public static final String NAME = "Nick";
     public static final String SURNAME = "Fury";
     public static final String EMAIL = "email@gmail.com";
     public static final LocalDate BIRTH_DATE = LocalDate.of(2000,1,1);
-    public static final String URI = "test_uri";
 
 }

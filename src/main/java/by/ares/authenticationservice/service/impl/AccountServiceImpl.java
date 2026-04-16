@@ -14,15 +14,19 @@ import by.ares.authenticationservice.service.AccountService;
 import by.ares.authenticationservice.service.ApiClientService;
 import by.ares.authenticationservice.service.JwtService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import static by.ares.authenticationservice.util.AuthServiceConstants.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true, isolation = Isolation.READ_COMMITTED)
@@ -42,6 +46,7 @@ public class AccountServiceImpl implements AccountService {
             throw new LoginAlreadyExistsException(LOGIN_ALREADY_EXISTS_MESSAGE);
         }
         Long userId = apiClientService.createUser(request.getUserRequest());
+        synchronizeRollback(userId);
         Account account = new Account()
                 .setLogin(request.getLogin())
                 .setUserId(userId)
@@ -73,6 +78,23 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Boolean validate(AccessTokenRequest accessTokenRequest) {
         return jwtService.validateAccessToken(accessTokenRequest.getAccessToken());
+    }
+
+    private void synchronizeRollback(Long userId) {
+        TransactionSynchronizationManager.registerSynchronization(
+                new TransactionSynchronization() {
+                    @Override
+                    public void afterCompletion(int status) {
+                        if (status == STATUS_ROLLED_BACK) {
+                            try {
+                                apiClientService.deleteUser(userId);
+                            } catch (Exception e) {
+                                log.error("Compensation failed for userId {}: {}", userId, e.getMessage(), e);
+                            }
+                        }
+                    }
+                }
+        );
     }
 
 }
