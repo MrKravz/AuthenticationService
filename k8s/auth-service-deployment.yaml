@@ -48,15 +48,22 @@ spec:
             - name: USER_SERVICE_URL
               value: "http://user-service:8081/users"
 
-          readinessProbe:
+          startupProbe:
             httpGet:
               path: /actuator/health
               port: 8082
-            initialDelaySeconds: 60
-            periodSeconds: 30
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            failureThreshold: 15
           livenessProbe:
             httpGet:
               path: /actuator/health
               port: 8082
-            initialDelaySeconds: 120
-            periodSeconds: 45
+            periodSeconds: 30
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8082
+            periodSeconds: 10
+            failureThreshold: 3
