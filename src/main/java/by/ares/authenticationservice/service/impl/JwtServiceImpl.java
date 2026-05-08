@@ -70,7 +70,7 @@ public class JwtServiceImpl implements JwtService {
             if (claims.get(CLAIM_NAME_USER_ID) == null || claims.get(CLAIM_NAME_ROLE) == null) {
                 return false;
             }
-            return !isTokenExpired(token);
+            return true;
         } catch (JwtException e) {
             return false;
         }
@@ -97,10 +97,6 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public Role extractRole(String token) {
         return Role.valueOf(extractClaims(token).get(CLAIM_NAME_ROLE, String.class));
-    }
-    @Override
-    public boolean isTokenExpired(String token) {
-        return extractClaims(token).get(CLAIM_NAME_EXPIRATION_DATE, Date.class).before(new Date());
     }
 
 }

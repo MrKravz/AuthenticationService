@@ -17,5 +17,4 @@ public interface JwtService {
 
     Role extractRole(String token);
 
-    boolean isTokenExpired(String token);
 }

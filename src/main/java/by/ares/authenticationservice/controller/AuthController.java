@@ -24,12 +24,12 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<TokenDto> register(@RequestBody RegisterRequest request) {
-        return ResponseEntity.status(HttpStatus.OK).body(accountService.register(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(accountService.register(request));
     }
 
     @PostMapping("/token")
     public ResponseEntity<TokenDto> createToken(@RequestBody AuthRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(accountService.authenticate(request));
+        return ResponseEntity.status(HttpStatus.OK).body(accountService.authenticate(request));
     }
 
     @PostMapping("/refresh")
